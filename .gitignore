@@ -1,0 +1,133 @@
+# Archivos temporales
+*~
+
+# Archivos de compilación
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.log.*
+*.tmp
+
+# Archivos de configuración
+*.iml
+*.ipr
+*.iws
+*.idea/
+.idea/
+
+# Archivos de dependencias
+target/
+bin/
+lib/
+
+# Entornos específicos
+node_modules/
+bower_components/
+
+# Archivos de construcción de proyectos Java
+build/
+bin/
+
+# Archivos de construcción de proyectos Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Entornos virtuales de Python
+venv/
+env/
+env2/
+env3/
+
+# Archivos de registro y archivos de salida
+logs/
+*.log
+*.log.*
+*.log-*
+*.log/
+
+# Archivos de respaldo y copias de seguridad
+*.bak
+*.backup
+*.swp
+*~
+*.save
+*.sav
+*.old
+
+# Archivos de configuración de sistemas operativos
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Carpeta de nodos de trabajo
+.svn/
+
+# Carpeta de archivos temporales de Windows
+Desktop.ini
+$RECYCLE.BIN/
+
+# Carpetas y archivos de Visual Studio Code
+.vscode/
+
+# Carpeta de caché de npm
+npm-debug.log
+node_modules/
+/dist/
+/cache/
+/log/
+/temp/
+*.tmp
+
+# Carpeta de caché de Yarn
+yarn-error.log
+yarn.lock
+
+# Carpeta de caché de Gradle
+.gradle/
+
+# Carpeta de caché de Maven
+target/
+.mvn/
+
+# Carpetas de archivos generados automáticamente
+.idea/
+*.iml
+
+# Archivos de configuración de Eclipse
+.settings/
+
+# Archivos de configuración de NetBeans
+nbproject/private/
+build/
+
+# Archivos de configuración de Xcode
+*.xcworkspace/
+*.xcuserdatad/
+
+# Carpetas de archivos de imágenes generados por IDEs
+/.idea/
+/.vscode/
+/.gradle/
+/__pycache__/
+
+# Carpetas de archivos generados por herramientas de construcción
+/dist/
+/build/
+
+# Carpetas de archivos generados por linters y análisis estático
+/.pytest_cache/
+/.mypy_cache/
+/.coverage/
+
+# Carpetas de archivos generados por pruebas
+/.tox/
+/nose2-results/
+
+# Archivos de configuración de Docker
+.dockerignore
+Dockerfile*

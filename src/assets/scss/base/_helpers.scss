@@ -1,0 +1,13 @@
+.mt-3-rem {
+  margin-top: 3rem;
+}
+
+.mt-3-rem-important {
+  margin-top: 3rem !important;
+}
+
+@media (min-width: 992px) {
+  .d-lg-none {
+    display: none !important;
+  }
+}
