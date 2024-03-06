@@ -1,21 +1,18 @@
+import { Route, Routes } from 'react-router-dom'
 import './App.scss'
-import { Guests } from './components/views/home/Guests'
-import { Hosts } from './components/views/home/Hosts'
-import { Total } from './components/views/home/Total'
+import { Home } from './components/views/home/Home'
 
 function App() {
   return (
-    <>
+    <div className="App">
       {/* Header */}
-      <main>
-        <section>
-          <Hosts />
-          <Guests />
-          <Total />
-        </section>
-      </main>
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+      </Routes>
+      
       {/* Footer */}
-    </>
+    </div>
   )
 }
 
