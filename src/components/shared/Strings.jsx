@@ -3,7 +3,8 @@ const strings = {
   hosts: 'Anfitriones',
   guest: 'Invitado',
   guests: 'Invitados',
-  new_user: 'Nuevo usuario'
+  new_user: 'Nuevo usuario',
+  total: 'total',
 }
 
 export default strings

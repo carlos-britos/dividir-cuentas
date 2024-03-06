@@ -4,6 +4,11 @@
     background: var(--neutral-100);
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
+
+    .remove-guest {
+      margin-left: auto;
+    }
   }
 
   &__body {

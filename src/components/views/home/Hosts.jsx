@@ -4,6 +4,7 @@ import strings from "../../shared/Strings"
 
 const Hosts = ({ hosts, setHosts }) => {
   const [newId, setNewId] = useState(1)
+
   // Array de ids
   const [hostsArray, setHostsArray] = useState([0])
 
@@ -15,6 +16,11 @@ const Hosts = ({ hosts, setHosts }) => {
 
     // Se modifica el id para el proximo user
     setNewId(newId + 1)
+  }
+
+  const handleSetPrice = (element, host) => {
+    const value = parseInt(element.value)
+    setHosts((prevHosts) => ({ ...prevHosts, [host]: value }));
   }
 
   return (
@@ -33,11 +39,11 @@ const Hosts = ({ hosts, setHosts }) => {
           {
             hostsArray.map((host) => (
               <div className="user-card" key={host}>
-                <div className="name">
-                  {strings.new_user}
-                </div>
+                <input className="name" placeholder={strings.new_user} type="text" />
+
                 <div className="price">
-                  $ { hosts[host] }
+                  $
+                  <input className="price__input" placeholder={ hosts[host] } onChange={(e) => handleSetPrice(e.target, host)} type="number" />
                 </div>
               </div>  
             ))
