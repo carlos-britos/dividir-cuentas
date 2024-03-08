@@ -36,11 +36,11 @@ const Total = ({ hosts , guests }) => {
             { strings.total } 
           </div>
           <b>
-            $ { total }
+            $ { total.toLocaleString() }
           </b>
         </div>
         <div className="user-list__body">
-          Cada uno paga $ { partial }
+          Cada uno paga $ { partial.toLocaleString() }
         </div>
       </div>
     </section>

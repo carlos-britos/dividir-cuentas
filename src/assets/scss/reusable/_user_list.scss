@@ -21,6 +21,34 @@
       padding: 1rem;
       background: var(--neutral-50);
       border-radius: .5rem;
+
+      input {
+        font-size: 1.2rem;
+        padding: 0.5rem 0;
+        border: none;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        transition: .3s;
+
+        &:focus-visible {
+          outline: none;
+          border-bottom: 2px solid var(--neutral-400);
+        }
+      }
+
+      .name {
+        font-weight: 600;
+      }
+
+      .price {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+
+        input {
+          padding-bottom: .3rem;
+        }
+      }
     }
   }
 }
