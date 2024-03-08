@@ -8,7 +8,7 @@ function App() {
       {/* Header */}
 
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/dividir-cuentas/' element={<Home />} />
       </Routes>
       
       {/* Footer */}
