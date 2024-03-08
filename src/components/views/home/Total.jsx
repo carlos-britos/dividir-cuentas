@@ -4,30 +4,45 @@ import strings from "../../shared/Strings"
 const Total = ({ hosts , guests }) => {
   const [total, setTotal] = useState(0)
   const [partial, setPartial] = useState(0)
+  const [arrayHosts, setArrayHosts] = useState([])
 
   useEffect(() => {
-    // TODO: arreglar funcionamiento de la calculadora
-    const priceArray = Object.values(hosts);
-    
-    // Suma todos los precios cada vez que cambian
-    const totalSum = priceArray.reduce((acc, price) => acc + price , 0);
-    setTotal(totalSum);
+    // Array de precios
+    setArrayHosts(Object.values(hosts))
+  }, [hosts, guests])
 
-    const users = priceArray.length + guests
-    const partialPrice = total / users
+  useEffect(() => {
+    // Suma todos los precios cada vez que cambian
+    const totalSum = arrayHosts.reduce((acc, price) => acc + price , 0);
+    setTotal(totalSum);
+  }, [arrayHosts])
+
+  useEffect(() => {
+    // Suma anfitriones e invitados
+    const users = arrayHosts.length + guests
+
+    // Divide cuanto paga cada uno
+    console.log(users)
+    console.log(total)
+
+    const partialPrice = users !== 0 ? total / users : 0;
 
     setPartial(partialPrice)
-    
-  }, [hosts, guests])
+  }, [total])
 
   return (
     <section>
       <div className="user-list total-section">
         <div className="user-list__header">
-          {strings.total} ({ total })
+          <div className="">
+            { strings.total } 
+          </div>
+          <b>
+            $ { total }
+          </b>
         </div>
         <div className="user-list__body">
-          Cada uno paga $({ partial })
+          Cada uno paga $ { partial }
         </div>
       </div>
     </section>

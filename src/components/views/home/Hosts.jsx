@@ -4,20 +4,25 @@ import strings from "../../shared/Strings"
 
 const Hosts = ({ hosts, setHosts }) => {
   const [newId, setNewId] = useState(1)
+  const [hostsArray, setHostsArray] = useState([])
 
-  // Array de ids
-  const [hostsArray, setHostsArray] = useState([0])
+
+  useEffect(() => {
+    // Array de precios
+    const keysArray = Object.keys(hosts);
+    setHostsArray(keysArray)
+  }, [hosts])
+
 
   const handleNewUser = () => {
     // Agarrar el objeto de y agregarle un id y el precio 0
     setHosts((prevHosts) => ({ ...prevHosts, [newId]: 0 }));
 
-    setHostsArray([...hostsArray , newId])
-
     // Se modifica el id para el proximo user
     setNewId(newId + 1)
   }
 
+  // Modifica el precio de uno de los anfitriones
   const handleSetPrice = (element, host) => {
     const value = parseInt(element.value)
     setHosts((prevHosts) => ({ ...prevHosts, [host]: value }));
@@ -27,8 +32,10 @@ const Hosts = ({ hosts, setHosts }) => {
     <section>
       <div className="user-list anfitriones-section">
         <div className="user-list__header">
-          {/* Se usa newId como contador */}
-          {strings.hosts} ({newId})
+          <div className="">
+            <b>{hostsArray.length} </b>
+            {strings.hosts}
+          </div>
 
           <div className="add-new-user" onClick={() => handleNewUser(newId)}>
             <Icon iconSvg={<AddIcon />} />
