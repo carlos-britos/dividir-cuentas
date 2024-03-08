@@ -4,7 +4,9 @@ import strings from "../../shared/Strings"
 const Guests = ({ guests, setGuests }) => {
 
   const removeGuest = () => {
-    setGuests( guests - 1 )
+    if ( guests !== 0 ) {
+      setGuests( guests - 1 )
+    }
   }
 
   const addGuest = () => {
@@ -15,7 +17,10 @@ const Guests = ({ guests, setGuests }) => {
     <section>
       <div className="user-list invitados-section">
         <div className="user-list__header">
-          {strings.guests} ({guests})
+          <div className="">
+            <b>{ guests } </b>
+            {strings.guests}
+          </div>
 
           {/* <div className="add-new-user" onClick={() => handleNewUser(newId)}> */}
           <div className="remove-guest" onClick={removeGuest}>

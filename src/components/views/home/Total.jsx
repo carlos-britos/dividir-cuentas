@@ -9,7 +9,7 @@ const Total = ({ hosts , guests }) => {
   useEffect(() => {
     // Array de precios
     setArrayHosts(Object.values(hosts))
-  }, [hosts, guests])
+  }, [hosts])
 
   useEffect(() => {
     // Suma todos los precios cada vez que cambian
@@ -22,13 +22,11 @@ const Total = ({ hosts , guests }) => {
     const users = arrayHosts.length + guests
 
     // Divide cuanto paga cada uno
-    console.log(users)
-    console.log(total)
-
-    const partialPrice = users !== 0 ? total / users : 0;
-
+    
+    const partialPrice = users !== 0 ? Math.floor(total / users) : 0;
+    
     setPartial(partialPrice)
-  }, [total])
+  }, [total, arrayHosts, guests])
 
   return (
     <section>
