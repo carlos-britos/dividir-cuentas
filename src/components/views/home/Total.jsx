@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import strings from "../../shared/Strings"
 
-const Total = ({ hosts , guests }) => {
+const Total = ({ hosts , guests, partial, setPartial }) => {
   const [total, setTotal] = useState(0)
-  const [partial, setPartial] = useState(0)
   const [arrayHosts, setArrayHosts] = useState([])
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const Total = ({ hosts , guests }) => {
     const partialPrice = users !== 0 ? Math.floor(total / users) : 0;
     
     setPartial(partialPrice)
-  }, [total, arrayHosts, guests])
+  }, [total, arrayHosts, guests, setPartial])
 
   return (
     <section>

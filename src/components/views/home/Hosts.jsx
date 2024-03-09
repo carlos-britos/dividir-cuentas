@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react"
 import { Icon, AddIcon } from "../../reusable/Icon"
 import strings from "../../shared/Strings"
+import { UserCard } from "./UserCard"
 
-const Hosts = ({ hosts, setHosts }) => {
+const Hosts = ({ hosts, setHosts, partial }) => {
   const [newId, setNewId] = useState(1)
   const [hostsArray, setHostsArray] = useState([])
 
 
-  useEffect(() => {
+  useEffect(() => { //Crear array con las llaves del objeto
     // Array de precios
     const keysArray = Object.keys(hosts);
     setHostsArray(keysArray)
   }, [hosts])
 
-
   const handleNewUser = () => {
-    // Agarrar el objeto de y agregarle un id y el precio 0
+    // Agarrar el objeto de hosts y agregarle un id y el precio 0
     setHosts((prevHosts) => ({ ...prevHosts, [newId]: 0 }));
 
     // Se modifica el id para el proximo user
     setNewId(newId + 1)
-  }
-
-  // Modifica el precio de uno de los anfitriones
-  const handleSetPrice = (element, host) => {
-    const value = parseInt(element.value)
-    setHosts((prevHosts) => ({ ...prevHosts, [host]: value }));
   }
 
   return (
@@ -45,14 +39,7 @@ const Hosts = ({ hosts, setHosts }) => {
           {/* Array de usuarios anfitriones creados por el boton de más */}
           {
             hostsArray.map((host) => (
-              <div className="user-card" key={host}>
-                <input className="name" placeholder={strings.new_user} type="text" />
-
-                <div className="price">
-                  $
-                  <input className="price__input" placeholder={ hosts[host] } onChange={(e) => handleSetPrice(e.target, host)} type="number" />
-                </div>
-              </div>  
+              <UserCard key={host} setHosts={setHosts} host={host} partial={partial} />
             ))
           }
         </div>
