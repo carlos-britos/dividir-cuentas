@@ -5,9 +5,13 @@ import strings from "../../shared/Strings"
 
 const UserCard = ({ setHosts, host, partial }) => {
   const inputNumberRef = useRef(0);
+  const [ payersCount, setPayersCount ] = useState(0) 
+  const [ rest, setRest ] = useState(0) 
 
   const [ diff, setDiff ] = useState(0) 
-  const [ value, setValue ] = useState(0) 
+  const [ value, setValue ] = useState(0)
+
+
 
   const handleSetPrice = () => {
     const newValue = parseInt(inputNumberRef.current.value)
@@ -23,6 +27,22 @@ const UserCard = ({ setHosts, host, partial }) => {
     setDiff( value - partial )
   }, [partial, value])
 
+  useEffect(() => { // Calcula la cantidad de personas que deben pagarle
+    const payers = diff / partial
+
+    const payersFloor = Math.floor( payers )
+
+    setPayersCount( payersFloor )
+
+    const is_int = payers % 1 !== 0
+
+    if (is_int) {
+      setRest(diff - (payersFloor * partial))
+    } else {
+      setRest(0)
+    }
+  }, [ diff, partial ])
+
 
   return (
     <div className="user-card">
@@ -35,15 +55,30 @@ const UserCard = ({ setHosts, host, partial }) => {
 
       {/* TODO: Cambiar el label */}
       { diff !== 0 && (
-        <div className="diff">
-          {/* si es mayor a 0 : Debe recibir $ */}
-          { diff > 0 ? (
-            <span className="recibe"> Recibe : </span>
-          ) : (
-            <span className="pay"> Paga : </span>
+        <>
+          <div className="diff">
+            {/* si es mayor a 0 : Debe recibir $ */}
+            { diff > 0 ? (
+              <span className="recibe"> Recibe : </span>
+            ) : (
+              <span className="pay"> Paga : </span>
+            )}
+            <span>$ { Math.abs(diff) }</span>
+          </div>
+
+          {payersCount > 0 && (
+            <div className="payers">
+              { payersCount > 1 ? 'Deben pagarle : ' : 'Debe pagarle : ' }
+              { payersCount > 0 && (
+                <>
+                  { payersCount }
+                  { payersCount > 1 ? ' personas ' : ' persona ' }
+                </>
+              )}
+              { rest > 0 && '+ $' + rest }
+            </div>
           )}
-          <span>$ { Math.abs(diff) }</span>
-        </div>
+        </>
       )}
     </div>
   )
