@@ -1,0 +1,131 @@
+.install-banner {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 1rem;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: installSlideUp 0.4s ease-out;
+
+  @media (min-width: 600px) {
+    max-width: 420px;
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 0.625rem;
+    background: var(--primary-500);
+    color: #fff;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+
+    strong {
+      font-family: var(--font-montserrat);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--color-body);
+    }
+
+    span {
+      font-family: var(--font-archivo);
+      font-size: 0.75rem;
+      color: var(--special-text-home);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  &__btn {
+    cursor: pointer;
+    border: none;
+    min-height: 36px;
+    transition:
+      background 0.2s,
+      transform 0.1s;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &--install {
+      font-family: var(--font-montserrat);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      border-radius: 0.625rem;
+      background: var(--primary-500);
+      color: #fff;
+      box-shadow: var(--glass-shadow);
+
+      &:hover {
+        background: var(--primary-600);
+      }
+    }
+
+    &--dismiss {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 0.5rem;
+      background: transparent;
+      color: var(--special-text-home);
+
+      &:hover {
+        background: var(--glass-bg);
+      }
+    }
+  }
+}
+
+@keyframes installSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
