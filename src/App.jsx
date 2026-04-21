@@ -2,10 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { Home } from "./components/views/home/Home";
 import { Header } from "./components/shared/Header";
+import { BackgroundShapes } from "./components/shared/BackgroundShapes";
 
 function App() {
   return (
     <div className="App">
+      <BackgroundShapes />
       <Header />
       <div className="app-content">
         <Routes>

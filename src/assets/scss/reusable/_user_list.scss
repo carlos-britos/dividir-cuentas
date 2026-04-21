@@ -1,7 +1,11 @@
 .user-list {
   &__header {
     padding: 1rem;
-    background: var(--neutral-100);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 0.5px solid var(--glass-border);
+    border-radius: 1rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -53,13 +57,17 @@
     .user-card {
       position: relative;
       padding: 1rem;
-      background: var(--neutral-50);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 0.5px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
       border-radius: 0.75rem;
       animation: slideInUp 0.3s ease-out;
       transition: box-shadow 0.2s;
 
       &:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: var(--glass-shadow-hover), var(--glass-inset);
       }
 
       &__remove {

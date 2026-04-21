@@ -3,7 +3,11 @@
 }
 
 .dashboard {
-  background: var(--neutral-50);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   border-radius: 1rem;
   padding: 1.5rem;
   text-align: center;

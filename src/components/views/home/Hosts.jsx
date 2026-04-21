@@ -5,13 +5,11 @@ import { UserCard } from "./UserCard";
 
 const Hosts = ({ hosts, setHosts, partial }) => {
   const [newId, setNewId] = useState(1);
-  const [hostsArray, setHostsArray] = useState([]);
+  const hostsArray = Object.keys(hosts);
 
   useEffect(() => {
-    const keysArray = Object.keys(hosts);
-    setHostsArray(keysArray);
-
-    const maxId = keysArray.length > 0 ? Math.max(...keysArray.map(Number)) : 0;
+    const maxId =
+      hostsArray.length > 0 ? Math.max(...hostsArray.map(Number)) : 0;
     if (maxId >= newId) {
       setNewId(maxId + 1);
     }

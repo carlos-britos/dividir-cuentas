@@ -54,6 +54,8 @@
       outline: 2px solid var(--primary-500);
       outline-offset: 2px;
     }
+
+    box-shadow: var(--glass-shadow);
   }
 }
 
@@ -92,6 +94,7 @@
     &--share {
       background: var(--primary-500);
       color: #fff;
+      box-shadow: var(--glass-shadow);
 
       &:hover {
         background: var(--primary-600);
@@ -99,11 +102,14 @@
     }
 
     &--reset {
-      background: var(--neutral-200);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 0.5px solid var(--glass-border);
       color: var(--color-body);
 
       &:hover {
-        background: var(--neutral-300);
+        background: var(--glass-bg-strong);
       }
     }
   }
@@ -115,7 +121,10 @@
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--neutral-900);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-border);
   color: var(--white);
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
