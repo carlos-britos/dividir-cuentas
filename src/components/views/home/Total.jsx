@@ -1,51 +1,60 @@
-import { useEffect, useState } from "react"
-import strings from "../../shared/Strings"
+import { useEffect, useState } from "react";
+import strings from "../../shared/Strings";
 
-const Total = ({ hosts , guests, partial, setPartial }) => {
-  const [total, setTotal] = useState(0)
-  const [arrayHosts, setArrayHosts] = useState([])
-  const [users, setUsers] = useState(0)
-
-  useEffect(() => {
-    // Array de precios
-    setArrayHosts(Object.values(hosts))
-  }, [hosts])
+const Total = ({ hosts, guests, partial, setPartial }) => {
+  const [total, setTotal] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [remainder, setRemainder] = useState(0);
 
   useEffect(() => {
-    // Suma todos los precios cada vez que cambian
-    const totalSum = arrayHosts.reduce((acc, price) => acc + price , 0);
+    const values = Object.values(hosts);
+    const totalSum = values.reduce((acc, h) => acc + h.price, 0);
     setTotal(totalSum);
-  }, [arrayHosts])
 
-  useEffect(() => {
-    // Suma anfitriones e invitados
-    const usersCount = arrayHosts.length + guests
-    setUsers( usersCount )
+    const usersCount = values.length + guests;
+    setUsers(usersCount);
 
-    // Divide cuanto paga cada uno
-    const partialPrice = usersCount !== 0 ? Math.floor(total / usersCount) : 0;
-    
-    setPartial(partialPrice)
-  }, [total, arrayHosts, guests, setPartial, setUsers])
+    const partialPrice = usersCount > 0 ? Math.floor(totalSum / usersCount) : 0;
+    setPartial(partialPrice);
+
+    const rem = usersCount > 0 ? totalSum - partialPrice * usersCount : 0;
+    setRemainder(rem);
+  }, [hosts, guests, setPartial]);
 
   return (
-    <section>
-      <div className="user-list total-section">
-        <div className="user-list__header">
-          <div className="">
-            <b>{ users } </b>
-            { strings.total } 
-          </div>
-          <b>
-            $ { total.toLocaleString() }
-          </b>
+    <section className="dashboard-section">
+      <div className="dashboard">
+        <div className="dashboard__hero" aria-live="polite">
+          <span className="dashboard__label">{strings.each_pays}</span>
+          <span className="dashboard__amount">
+            $ {partial.toLocaleString()}
+          </span>
         </div>
-        <div className="user-list__body">
-          Cada uno paga $ { partial.toLocaleString() }
+        <div className="dashboard__stats">
+          <div className="dashboard__stat">
+            <span className="dashboard__stat-value">{users}</span>
+            <span className="dashboard__stat-label">
+              {users === 1 ? strings.person : strings.people}
+            </span>
+          </div>
+          <div className="dashboard__stat">
+            <span className="dashboard__stat-value">
+              $ {total.toLocaleString()}
+            </span>
+            <span className="dashboard__stat-label">{strings.total}</span>
+          </div>
+          {remainder > 0 && (
+            <div className="dashboard__stat">
+              <span className="dashboard__stat-value">
+                $ {remainder.toLocaleString()}
+              </span>
+              <span className="dashboard__stat-label">{strings.remainder}</span>
+            </div>
+          )}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export { Total }
+export { Total };

@@ -1,87 +1,131 @@
-import { useEffect, useRef, useState } from "react";
-import strings from "../../shared/Strings"
+import { useEffect, useState } from "react";
+import { CloseIcon } from "../../reusable/Icon";
+import strings from "../../shared/Strings";
 
-// Modifica el precio de uno de los anfitriones
+const UserCard = ({
+  setHosts,
+  host,
+  partial,
+  onRemove,
+  canRemove,
+  initialPrice = 0,
+  initialName = "",
+}) => {
+  const [payersCount, setPayersCount] = useState(0);
+  const [rest, setRest] = useState(0);
+  const [diff, setDiff] = useState(0);
+  const [value, setValue] = useState(initialPrice);
+  const [inputText, setInputText] = useState(
+    initialPrice > 0 ? String(initialPrice) : "",
+  );
+  const [name, setName] = useState(initialName);
 
-const UserCard = ({ setHosts, host, partial }) => {
-  const inputNumberRef = useRef(0);
-  const [ payersCount, setPayersCount ] = useState(0) 
-  const [ rest, setRest ] = useState(0) 
+  const handleSetPrice = (e) => {
+    const raw = e.target.value;
+    setInputText(raw);
+    const newValue = parseInt(raw) || 0;
+    setValue(newValue);
+    setHosts((prev) => ({
+      ...prev,
+      [host]: { ...prev[host], price: newValue },
+    }));
+  };
 
-  const [ diff, setDiff ] = useState(0) 
-  const [ value, setValue ] = useState(0)
+  const handleSetName = (e) => {
+    const newName = e.target.value;
+    setName(newName);
+    setHosts((prev) => ({ ...prev, [host]: { ...prev[host], name: newName } }));
+  };
 
-
-
-  const handleSetPrice = () => {
-    const newValue = parseInt(inputNumberRef.current.value)
-    setValue( newValue )
-    setHosts((prevHosts) => ({ ...prevHosts, [host]: newValue }));
-  }
-
-  // useEffect(() => {
-  //   console.log(hosts)
-  // }, [value, hosts, setHosts, host])
-
-  useEffect(() => { // Calcula diferencia entre el total y el precio unitario
-    setDiff( value - partial )
-  }, [partial, value])
-
-  useEffect(() => { // Calcula la cantidad de personas que deben pagarle
-    const payers = diff / partial
-
-    const payersFloor = Math.floor( payers )
-
-    setPayersCount( payersFloor )
-
-    const is_int = payers % 1 !== 0
-
-    if (is_int) {
-      setRest(diff - (payersFloor * partial))
-    } else {
-      setRest(0)
+  const handleKeyDown = (e) => {
+    if (["e", "E", "-", "+", "."].includes(e.key)) {
+      e.preventDefault();
     }
-  }, [ diff, partial ])
+  };
 
+  useEffect(() => {
+    setDiff(value - partial);
+  }, [partial, value]);
+
+  useEffect(() => {
+    if (partial <= 0) {
+      setPayersCount(0);
+      setRest(0);
+      return;
+    }
+    const payers = diff / partial;
+    const payersFloor = Math.floor(payers);
+    setPayersCount(payersFloor);
+
+    if (payers % 1 !== 0) {
+      setRest(diff - payersFloor * partial);
+    } else {
+      setRest(0);
+    }
+  }, [diff, partial]);
 
   return (
     <div className="user-card">
-      <input className="name" placeholder={ strings.new_user } type="text" />
+      {canRemove && (
+        <button
+          className="user-card__remove"
+          onClick={() => onRemove(host)}
+          aria-label="Eliminar pagador"
+          type="button"
+        >
+          <CloseIcon />
+        </button>
+      )}
+
+      <input
+        className="name"
+        placeholder={strings.new_payer}
+        type="text"
+        value={name}
+        onChange={handleSetName}
+        aria-label="Nombre del pagador"
+      />
 
       <div className="price">
         $
-        <input className="price__input" placeholder="0" ref={ inputNumberRef } onChange={ handleSetPrice } type="number" />
+        <input
+          className="price__input"
+          placeholder="0"
+          value={inputText}
+          onChange={handleSetPrice}
+          onKeyDown={handleKeyDown}
+          type="number"
+          min="0"
+          step="1"
+          aria-label="Monto pagado"
+        />
       </div>
 
-      {/* TODO: Cambiar el label */}
-      { diff !== 0 && (
+      {diff !== 0 && (
         <>
           <div className="diff">
-            {/* si es mayor a 0 : Debe recibir $ */}
-            { diff > 0 ? (
-              <span className="recibe"> Recibe : </span>
+            {diff > 0 ? (
+              <span className="recibe">{strings.receives}: </span>
             ) : (
-              <span className="pay"> Paga : </span>
+              <span className="pay">{strings.owes}: </span>
             )}
-            <span>$ { Math.abs(diff) }</span>
+            <span>$ {Math.abs(diff).toLocaleString()}</span>
           </div>
 
           {payersCount > 0 && (
             <div className="payers">
-              { payersCount > 1 ? 'Deben pagarle : ' : 'Debe pagarle : ' }
-              { payersCount > 0 && (
-                <>
-                  { payersCount }
-                  { payersCount > 1 ? ' personas ' : ' persona ' }
-                </>
-              )}
-              { rest > 0 && '+ $' + rest }
+              {payersCount > 1
+                ? strings.should_pay_plural
+                : strings.should_pay_singular}
+              : {payersCount}{" "}
+              {payersCount > 1 ? strings.people : strings.person}
+              {rest > 0 && ` + $${rest.toLocaleString()}`}
             </div>
           )}
         </>
       )}
     </div>
-  )
-} 
+  );
+};
 
-export { UserCard }
+export { UserCard };

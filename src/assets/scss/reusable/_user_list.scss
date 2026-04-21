@@ -10,6 +10,38 @@
     .remove-guest {
       margin-left: auto;
     }
+
+    button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      transition:
+        background 0.2s,
+        transform 0.1s;
+      color: var(--color-body);
+
+      &:hover {
+        background: var(--neutral-200);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--primary-500);
+        outline-offset: 2px;
+      }
+    }
   }
 
   &__body {
@@ -19,9 +51,48 @@
     gap: 1rem;
 
     .user-card {
+      position: relative;
       padding: 1rem;
       background: var(--neutral-50);
-      border-radius: .5rem;
+      border-radius: 0.75rem;
+      animation: slideInUp 0.3s ease-out;
+      transition: box-shadow 0.2s;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      &__remove {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 50%;
+        color: var(--neutral-400);
+        transition:
+          color 0.2s,
+          background 0.2s,
+          transform 0.1s;
+
+        &:hover {
+          color: var(--bubble-red);
+          background: rgba(0, 0, 0, 0.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--primary-500);
+          outline-offset: 2px;
+        }
+      }
 
       input {
         font-size: 1.2rem;
@@ -29,7 +100,9 @@
         border: none;
         border-bottom: 2px solid transparent;
         background: transparent;
-        transition: .3s;
+        color: var(--color-body);
+        transition: border-color 0.3s;
+        width: 100%;
 
         &:focus-visible {
           outline: none;
@@ -39,15 +112,18 @@
 
       .name {
         font-weight: 600;
+        padding-right: 2.5rem;
       }
 
       .price {
         display: flex;
-        gap: .5rem;
+        gap: 0.5rem;
         align-items: center;
+        font-size: 1.1rem;
 
         input {
-          padding-bottom: .3rem;
+          padding-bottom: 0.3rem;
+          max-width: 150px;
         }
       }
 
@@ -57,13 +133,19 @@
 
         .recibe,
         .recibe + span {
-          color: #4CAF50;
+          color: var(--bubble-green);
         }
 
         .pay,
         .pay + span {
-          color: #F44336; 
+          color: var(--bubble-red);
         }
+      }
+
+      .payers {
+        margin-top: 0.25rem;
+        font-size: 0.9rem;
+        color: var(--neutral-500);
       }
     }
   }

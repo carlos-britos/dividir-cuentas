@@ -9,8 +9,8 @@ li {
 }
 
 a,
-a:hover, 
-a:-webkit-any-link  {
+a:hover,
+a:-webkit-any-link {
   text-decoration: none;
   color: inherit;
 }
@@ -18,9 +18,20 @@ a:-webkit-any-link  {
 button {
   border: none;
   background: none;
-  font-family: var(--font-roboto);
+  font-family: var(--font-archivo);
+  cursor: pointer;
 }
 
 picture {
   display: contents;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }

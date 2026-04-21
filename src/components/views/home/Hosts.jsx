@@ -1,51 +1,71 @@
-import { useEffect, useState } from "react"
-import { Icon, AddIcon } from "../../reusable/Icon"
-import strings from "../../shared/Strings"
-import { UserCard } from "./UserCard"
+import { useEffect, useState } from "react";
+import { Icon, AddIcon } from "../../reusable/Icon";
+import strings from "../../shared/Strings";
+import { UserCard } from "./UserCard";
 
 const Hosts = ({ hosts, setHosts, partial }) => {
-  const [newId, setNewId] = useState(1)
-  const [hostsArray, setHostsArray] = useState([])
+  const [newId, setNewId] = useState(1);
+  const [hostsArray, setHostsArray] = useState([]);
 
-
-  useEffect(() => { //Crear array con las llaves del objeto
-    // Array de precios
+  useEffect(() => {
     const keysArray = Object.keys(hosts);
-    setHostsArray(keysArray)
-  }, [hosts])
+    setHostsArray(keysArray);
+
+    const maxId = keysArray.length > 0 ? Math.max(...keysArray.map(Number)) : 0;
+    if (maxId >= newId) {
+      setNewId(maxId + 1);
+    }
+  }, [hosts]);
 
   const handleNewUser = () => {
-    // Agarrar el objeto de hosts y agregarle un id y el precio 0
-    setHosts((prevHosts) => ({ ...prevHosts, [newId]: 0 }));
+    setHosts((prevHosts) => ({
+      ...prevHosts,
+      [newId]: { price: 0, name: "" },
+    }));
+    setNewId(newId + 1);
+  };
 
-    // Se modifica el id para el proximo user
-    setNewId(newId + 1)
-  }
+  const handleRemoveHost = (hostId) => {
+    setHosts((prevHosts) => {
+      const { [hostId]: _, ...rest } = prevHosts;
+      return rest;
+    });
+  };
 
   return (
     <section>
-      <div className="user-list anfitriones-section">
+      <div className="user-list payers-section">
         <div className="user-list__header">
-          <div className="">
+          <div>
             <b>{hostsArray.length} </b>
-            {strings.hosts}
+            {strings.payers}
           </div>
-
-          <div className="add-new-user" onClick={() => handleNewUser(newId)}>
+          <button
+            className="add-new-user"
+            onClick={handleNewUser}
+            aria-label="Agregar pagador"
+            type="button"
+          >
             <Icon iconSvg={<AddIcon />} />
-          </div>
+          </button>
         </div>
         <div className="user-list__body">
-          {/* Array de usuarios anfitriones creados por el boton de más */}
-          {
-            hostsArray.map((host) => (
-              <UserCard key={host} setHosts={setHosts} host={host} partial={partial} />
-            ))
-          }
+          {hostsArray.map((host) => (
+            <UserCard
+              key={host}
+              setHosts={setHosts}
+              host={host}
+              partial={partial}
+              onRemove={handleRemoveHost}
+              canRemove={hostsArray.length > 1}
+              initialPrice={hosts[host].price}
+              initialName={hosts[host].name}
+            />
+          ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export { Hosts }
+export { Hosts };

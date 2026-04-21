@@ -1,40 +1,46 @@
-import { AddIcon, Icon, RemoveIcon } from "../../reusable/Icon"
-import strings from "../../shared/Strings"
+import { AddIcon, Icon, RemoveIcon } from "../../reusable/Icon";
+import strings from "../../shared/Strings";
 
 const Guests = ({ guests, setGuests }) => {
-
   const removeGuest = () => {
-    if ( guests !== 0 ) {
-      setGuests( guests - 1 )
+    if (guests > 0) {
+      setGuests(guests - 1);
     }
-  }
+  };
 
   const addGuest = () => {
-    setGuests( guests + 1 )
-  }
-  
+    setGuests(guests + 1);
+  };
+
   return (
     <section>
-      <div className="user-list invitados-section">
+      <div className="user-list participants-section">
         <div className="user-list__header">
-          <div className="">
-            <b>{ guests } </b>
-            {strings.guests}
+          <div>
+            <b>{guests} </b>
+            {strings.participants}
           </div>
-
-          {/* <div className="add-new-user" onClick={() => handleNewUser(newId)}> */}
-          <div className="remove-guest" onClick={removeGuest}>
+          <button
+            className="remove-guest"
+            onClick={removeGuest}
+            aria-label="Quitar participante"
+            type="button"
+            disabled={guests === 0}
+          >
             <Icon iconSvg={<RemoveIcon />} />
-          </div>
-          <div className="add-guest" onClick={addGuest}>
+          </button>
+          <button
+            className="add-guest"
+            onClick={addGuest}
+            aria-label="Agregar participante"
+            type="button"
+          >
             <Icon iconSvg={<AddIcon />} />
-          </div>
-        </div>
-        <div className="user-list__body">
+          </button>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export { Guests }
+export { Guests };
