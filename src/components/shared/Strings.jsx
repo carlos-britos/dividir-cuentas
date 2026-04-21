@@ -1,7 +1,11 @@
 const strings = {
-  payers: "Pagadores",
-  participants: "Participantes",
+  payers: "¿Quiénes pagaron?",
+  participants: "¿Cuántos más comparten?",
   new_payer: "Nombre",
+  placeholder_name_hint: "Ej: Juan",
+  placeholder_price_hint: "Monto que pagó",
+  section_hint_payers: "Empezá agregando a quienes pagaron",
+  section_hint_participants: "Sumá a los que no pagaron pero comparten",
   total: "Total",
   each_pays: "Cada uno paga",
   receives: "Le deben",
@@ -17,7 +21,10 @@ const strings = {
   empty_subtitle: "Agregá quiénes pagaron y cuántos comparten el gasto",
   remainder: "Sobrante",
   copied: "Copiado al portapapeles",
-  confirm_reset: "¿Estás seguro? Se borrarán todos los datos.",
+  confirm_reset_title: "Nueva división",
+  confirm_reset_message: "¿Estás seguro? Se borrarán todos los datos.",
+  cancel: "Cancelar",
+  confirm: "Confirmar",
   payment_flow_title: "¿Quién le paga a quién?",
 };
 

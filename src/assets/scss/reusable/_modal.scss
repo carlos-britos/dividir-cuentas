@@ -1,0 +1,105 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-hover), var(--glass-inset);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 340px;
+  width: calc(100% - 2rem);
+  text-align: center;
+  animation: slideInUp 0.25s ease-out;
+
+  &__icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    font-family: var(--font-montserrat);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-body);
+    margin-bottom: 0.5rem;
+  }
+
+  &__message {
+    font-size: 0.9rem;
+    color: var(--neutral-500);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  &__btn {
+    cursor: pointer;
+    font-family: var(--font-archivo);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    min-height: 44px;
+    transition:
+      background 0.2s,
+      transform 0.1s;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-500);
+      outline-offset: 2px;
+    }
+
+    &--cancel {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 0.5px solid var(--glass-border);
+      color: var(--color-body);
+
+      &:hover {
+        background: var(--glass-bg-strong);
+      }
+    }
+
+    &--confirm {
+      background: var(--bubble-red);
+      color: #fff;
+      box-shadow: var(--glass-shadow);
+
+      &:hover {
+        filter: brightness(1.1);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -2,9 +2,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Hosts } from "./Hosts";
 import { Guests } from "./Guests";
 import { Total } from "./Total";
-import { PaymentFlow } from "./PaymentFlow";
-import { ResetIcon, ShareIcon } from "../../reusable/Icon";
+import { PaymentFlow, calculateTransfers } from "./PaymentFlow";
+import { ConfirmModal } from "../../reusable/ConfirmModal";
+import { ResetIcon } from "../../reusable/Icon";
+import { Share2 } from "lucide-react";
 import strings from "../../shared/Strings";
+
+const VISITED_KEY = "dividir-cuentas-visited";
 
 const STORAGE_KEY = "dividir-cuentas-state";
 
@@ -49,6 +53,10 @@ const Home = () => {
   const [guests, setGuests] = useState(saved.current?.guests || 0);
   const [guestNames, setGuestNames] = useState(saved.current?.guestNames || {});
   const [toast, setToast] = useState(null);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(
+    () => !localStorage.getItem(VISITED_KEY),
+  );
   const saveTimer = useRef(null);
 
   useEffect(() => {
@@ -67,14 +75,22 @@ const Home = () => {
     setTimeout(() => setToast(null), 3000);
   }, []);
 
-  const handleReset = () => {
-    if (window.confirm(strings.confirm_reset)) {
-      localStorage.removeItem(STORAGE_KEY);
-      setHosts({ 0: { price: 0, name: "" } });
-      setGuests(0);
-      setGuestNames({});
-      setPartial(0);
+  const dismissFirstVisit = useCallback(() => {
+    if (isFirstVisit) {
+      localStorage.setItem(VISITED_KEY, "1");
+      setIsFirstVisit(false);
     }
+  }, [isFirstVisit]);
+
+  const handleReset = () => setShowResetModal(true);
+
+  const confirmReset = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setHosts({ 0: { price: 0, name: "" } });
+    setGuests(0);
+    setGuestNames({});
+    setPartial(0);
+    setShowResetModal(false);
   };
 
   const handleShare = async () => {
@@ -87,7 +103,21 @@ const Home = () => {
       )
       .join("\n");
 
-    const text = `Dividimos cuentas:\nTotal: $${total.toLocaleString()}\nCada uno paga: $${partial.toLocaleString()}\nPersonas: ${hostValues.length + guests}\n\n${lines}\n\nHecho con DividirCuentas`;
+    const { transfers } = calculateTransfers(
+      hosts,
+      guests,
+      partial,
+      guestNames,
+    );
+    const transferLines = transfers
+      .map((t) => `- ${t.from} → ${t.to}: $${t.amount.toLocaleString()}`)
+      .join("\n");
+
+    let text = `Dividimos cuentas:\nTotal: $${total.toLocaleString()}\nCada uno paga: $${partial.toLocaleString()}\nPersonas: ${hostValues.length + guests}\n\n${lines}`;
+    if (transferLines) {
+      text += `\n\n¿Quién le paga a quién?\n${transferLines}`;
+    }
+    text += "\n\nHecho con DividirCuentas";
 
     if (navigator.share) {
       try {
@@ -133,8 +163,18 @@ const Home = () => {
         partial={partial}
         setPartial={setPartial}
       />
-      <Hosts hosts={hosts} setHosts={setHosts} partial={partial} />
-      <Guests guests={guests} setGuests={setGuests} />
+      <Hosts
+        hosts={hosts}
+        setHosts={setHosts}
+        partial={partial}
+        isFirstVisit={isFirstVisit}
+        onInteraction={dismissFirstVisit}
+      />
+      <Guests
+        guests={guests}
+        setGuests={setGuests}
+        isFirstVisit={isFirstVisit}
+      />
 
       {hasData && partial > 0 && (
         <PaymentFlow
@@ -154,7 +194,7 @@ const Home = () => {
             onClick={handleShare}
             type="button"
           >
-            <ShareIcon />
+            <Share2 size={20} />
             {strings.share}
           </button>
         )}
@@ -173,6 +213,14 @@ const Home = () => {
           {toast}
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={showResetModal}
+        onConfirm={confirmReset}
+        onCancel={() => setShowResetModal(false)}
+        title={strings.confirm_reset_title}
+        message={strings.confirm_reset_message}
+      />
     </>
   );
 };

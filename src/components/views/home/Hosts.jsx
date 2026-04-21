@@ -3,7 +3,7 @@ import { Icon, AddIcon } from "../../reusable/Icon";
 import strings from "../../shared/Strings";
 import { UserCard } from "./UserCard";
 
-const Hosts = ({ hosts, setHosts, partial }) => {
+const Hosts = ({ hosts, setHosts, partial, isFirstVisit, onInteraction }) => {
   const [newId, setNewId] = useState(1);
   const hostsArray = Object.keys(hosts);
 
@@ -35,8 +35,8 @@ const Hosts = ({ hosts, setHosts, partial }) => {
       <div className="user-list payers-section">
         <div className="user-list__header">
           <div>
-            <b>{hostsArray.length} </b>
-            {strings.payers}
+            {strings.payers}{" "}
+            <span className="user-list__count">{hostsArray.length}</span>
           </div>
           <button
             className="add-new-user"
@@ -47,6 +47,9 @@ const Hosts = ({ hosts, setHosts, partial }) => {
             <Icon iconSvg={<AddIcon />} />
           </button>
         </div>
+        {isFirstVisit && (
+          <p className="user-list__hint">{strings.section_hint_payers}</p>
+        )}
         <div className="user-list__body">
           {hostsArray.map((host) => (
             <UserCard
@@ -58,6 +61,8 @@ const Hosts = ({ hosts, setHosts, partial }) => {
               canRemove={hostsArray.length > 1}
               initialPrice={hosts[host].price}
               initialName={hosts[host].name}
+              isFirstVisit={isFirstVisit}
+              onInteraction={onInteraction}
             />
           ))}
         </div>

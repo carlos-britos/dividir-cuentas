@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { CloseIcon } from "../../reusable/Icon";
 import strings from "../../shared/Strings";
 
+const formatNumber = (n) => (n > 0 ? n.toLocaleString("es-AR") : "");
+const parseFormattedNumber = (str) => parseInt(str.replace(/\D/g, "")) || 0;
+
 const UserCard = ({
   setHosts,
   host,
@@ -10,37 +13,46 @@ const UserCard = ({
   canRemove,
   initialPrice = 0,
   initialName = "",
+  isFirstVisit,
+  onInteraction,
 }) => {
   const [payersCount, setPayersCount] = useState(0);
   const [rest, setRest] = useState(0);
   const [diff, setDiff] = useState(0);
   const [value, setValue] = useState(initialPrice);
-  const [inputText, setInputText] = useState(
-    initialPrice > 0 ? String(initialPrice) : "",
-  );
+  const [inputText, setInputText] = useState(formatNumber(initialPrice));
   const [name, setName] = useState(initialName);
+
+  useEffect(() => {
+    setValue(initialPrice);
+    setInputText(formatNumber(initialPrice));
+  }, [initialPrice]);
+
+  useEffect(() => {
+    setName(initialName);
+  }, [initialName]);
 
   const handleSetPrice = (e) => {
     const raw = e.target.value;
-    setInputText(raw);
-    const newValue = parseInt(raw) || 0;
-    setValue(newValue);
+    const numeric = parseFormattedNumber(raw);
+    setValue(numeric);
+    setInputText(formatNumber(numeric));
     setHosts((prev) => ({
       ...prev,
-      [host]: { ...prev[host], price: newValue },
+      [host]: { ...prev[host], price: numeric },
     }));
+    if (numeric > 0 && onInteraction) onInteraction();
   };
 
   const handleSetName = (e) => {
     const newName = e.target.value;
     setName(newName);
     setHosts((prev) => ({ ...prev, [host]: { ...prev[host], name: newName } }));
+    if (newName && onInteraction) onInteraction();
   };
 
   const handleKeyDown = (e) => {
-    if (["e", "E", "-", "+", "."].includes(e.key)) {
-      e.preventDefault();
-    }
+    if (["-", "+"].includes(e.key)) e.preventDefault();
   };
 
   useEffect(() => {
@@ -79,7 +91,9 @@ const UserCard = ({
 
       <input
         className="name"
-        placeholder={strings.new_payer}
+        placeholder={
+          isFirstVisit ? strings.placeholder_name_hint : strings.new_payer
+        }
         type="text"
         value={name}
         onChange={handleSetName}
@@ -90,13 +104,12 @@ const UserCard = ({
         $
         <input
           className="price__input"
-          placeholder="0"
+          placeholder={isFirstVisit ? strings.placeholder_price_hint : "0"}
           value={inputText}
           onChange={handleSetPrice}
           onKeyDown={handleKeyDown}
-          type="number"
-          min="0"
-          step="1"
+          type="text"
+          inputMode="numeric"
           aria-label="Monto pagado"
         />
       </div>

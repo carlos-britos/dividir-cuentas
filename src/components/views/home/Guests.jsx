@@ -1,7 +1,7 @@
 import { AddIcon, Icon, RemoveIcon } from "../../reusable/Icon";
 import strings from "../../shared/Strings";
 
-const Guests = ({ guests, setGuests }) => {
+const Guests = ({ guests, setGuests, isFirstVisit }) => {
   const removeGuest = () => {
     if (guests > 0) {
       setGuests(guests - 1);
@@ -17,8 +17,8 @@ const Guests = ({ guests, setGuests }) => {
       <div className="user-list participants-section">
         <div className="user-list__header">
           <div>
-            <b>{guests} </b>
-            {strings.participants}
+            {strings.participants}{" "}
+            <span className="user-list__count">{guests}</span>
           </div>
           <button
             className="remove-guest"
@@ -38,6 +38,9 @@ const Guests = ({ guests, setGuests }) => {
             <Icon iconSvg={<AddIcon />} />
           </button>
         </div>
+        {isFirstVisit && (
+          <p className="user-list__hint">{strings.section_hint_participants}</p>
+        )}
       </div>
     </section>
   );

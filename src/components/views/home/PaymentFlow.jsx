@@ -800,4 +800,4 @@ const PaymentFlow = ({
   );
 };
 
-export { PaymentFlow };
+export { PaymentFlow, calculateTransfers };

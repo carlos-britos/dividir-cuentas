@@ -82,6 +82,10 @@
       transform 0.1s;
     min-height: 44px;
 
+    svg {
+      flex-shrink: 0;
+    }
+
     &:active {
       transform: scale(0.97);
     }
