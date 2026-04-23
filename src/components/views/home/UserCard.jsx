@@ -5,6 +5,12 @@ import strings from "../../shared/Strings";
 const formatNumber = (n) => (n > 0 ? n.toLocaleString("es-AR") : "");
 const parseFormattedNumber = (str) => parseInt(str.replace(/\D/g, "")) || 0;
 
+const handleInputFocus = (e) => {
+  setTimeout(() => {
+    e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 300);
+};
+
 const UserCard = ({
   setHosts,
   host,
@@ -78,6 +84,10 @@ const UserCard = ({
         type="text"
         value={name}
         onChange={handleSetName}
+        onFocus={handleInputFocus}
+        enterKeyHint="next"
+        autoComplete="off"
+        autoCapitalize="words"
         aria-label="Nombre del pagador"
       />
 
@@ -89,8 +99,11 @@ const UserCard = ({
           value={inputText}
           onChange={handleSetPrice}
           onKeyDown={handleKeyDown}
+          onFocus={handleInputFocus}
           type="text"
           inputMode="numeric"
+          enterKeyHint="done"
+          autoComplete="off"
           aria-label="Monto pagado"
         />
       </div>

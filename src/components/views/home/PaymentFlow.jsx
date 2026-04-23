@@ -619,6 +619,12 @@ const ChordView = ({
   );
 };
 
+const handleInputFocus = (e) => {
+  setTimeout(() => {
+    e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 300);
+};
+
 const PaymentFlow = ({
   hosts,
   setHosts,
@@ -781,6 +787,10 @@ const PaymentFlow = ({
               placeholder={strings.new_payer}
               onChange={(e) => handleNameChange(t.from, e.target.value)}
               onClick={(e) => e.stopPropagation()}
+              onFocus={handleInputFocus}
+              enterKeyHint="next"
+              autoComplete="off"
+              autoCapitalize="words"
             />
             <span className="payment-flow__item-arrow">→</span>
             <input
@@ -789,6 +799,10 @@ const PaymentFlow = ({
               placeholder={strings.new_payer}
               onChange={(e) => handleNameChange(t.to, e.target.value)}
               onClick={(e) => e.stopPropagation()}
+              onFocus={handleInputFocus}
+              enterKeyHint="done"
+              autoComplete="off"
+              autoCapitalize="words"
             />
             <span className="payment-flow__item-amount">
               ${t.amount.toLocaleString()}
