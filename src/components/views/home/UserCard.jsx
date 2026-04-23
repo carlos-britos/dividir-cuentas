@@ -16,8 +16,6 @@ const UserCard = ({
   isFirstVisit,
   onInteraction,
 }) => {
-  const [payersCount, setPayersCount] = useState(0);
-  const [rest, setRest] = useState(0);
   const [diff, setDiff] = useState(0);
   const [value, setValue] = useState(initialPrice);
   const [inputText, setInputText] = useState(formatNumber(initialPrice));
@@ -58,23 +56,6 @@ const UserCard = ({
   useEffect(() => {
     setDiff(value - partial);
   }, [partial, value]);
-
-  useEffect(() => {
-    if (partial <= 0) {
-      setPayersCount(0);
-      setRest(0);
-      return;
-    }
-    const payers = diff / partial;
-    const payersFloor = Math.floor(payers);
-    setPayersCount(payersFloor);
-
-    if (payers % 1 !== 0) {
-      setRest(diff - payersFloor * partial);
-    } else {
-      setRest(0);
-    }
-  }, [diff, partial]);
 
   return (
     <div className="user-card">
@@ -124,17 +105,6 @@ const UserCard = ({
             )}
             <span>$ {Math.abs(diff).toLocaleString()}</span>
           </div>
-
-          {payersCount > 0 && (
-            <div className="payers">
-              {payersCount > 1
-                ? strings.should_pay_plural
-                : strings.should_pay_singular}
-              : {payersCount}{" "}
-              {payersCount > 1 ? strings.people : strings.person}
-              {rest > 0 && ` + $${rest.toLocaleString()}`}
-            </div>
-          )}
         </>
       )}
     </div>
